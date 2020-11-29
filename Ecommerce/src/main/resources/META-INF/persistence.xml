@@ -13,22 +13,22 @@
         <class>com.bourgedetrembleur.hepl.modele.Payement</class>
         <class>com.bourgedetrembleur.hepl.modele.Stock</class>
         <properties>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
 
 
-            <property name="hibernate.connection.url"
+            <property name="javax.persistence.jdbc.url"
                       value="jdbc:mysql://localhost:3306/ecommerce_db?serverTimezone=UTC"/>
-            <property name="hibernate.connection.driver_class"
+            <property name="javax.persistence.jdbc.driver"
                       value="com.mysql.cj.jdbc.Driver"/>
-            <property name="hibernate.connection.username"
+            <property name="javax.persistence.jdbc.user"
                       value="root"/>
-            <property name="hibernate.connection.password"
+            <property name="javax.persistence.jdbc.password"
                       value="13Mysql53"/>
 
-
+            <property name="hibernate.show_sql" value="true"/>
             <!-- DB schema will be updated if needed -->
             <property name="hibernate.hbm2ddl.auto"
-                      value="update"/>
+                      value="create"/>
         </properties>
     </persistence-unit>
 </persistence>
