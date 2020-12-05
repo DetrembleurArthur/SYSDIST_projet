@@ -1,9 +1,9 @@
-package com.bourgedetrembleur.hepl.modele;
+package com.bourgedetrembleur.hepl.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 public class Category implements Serializable
@@ -12,7 +12,7 @@ public class Category implements Serializable
     private String name;
 
 
-    private Collection<Article> articles;
+    private Collection<Article> articles = new ArrayList<>();
 
     public void setId(Integer id)
     {

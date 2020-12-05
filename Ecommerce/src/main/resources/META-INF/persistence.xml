@@ -5,13 +5,13 @@
               http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
     <persistence-unit  name="test">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>com.bourgedetrembleur.hepl.modele.Item</class>
-        <class>com.bourgedetrembleur.hepl.modele.Article</class>
-        <class>com.bourgedetrembleur.hepl.modele.Command</class>
-        <class>com.bourgedetrembleur.hepl.modele.Client</class>
-        <class>com.bourgedetrembleur.hepl.modele.Category</class>
-        <class>com.bourgedetrembleur.hepl.modele.Payement</class>
-        <class>com.bourgedetrembleur.hepl.modele.Stock</class>
+        <class>com.bourgedetrembleur.hepl.model.Item</class>
+        <class>com.bourgedetrembleur.hepl.model.Article</class>
+        <class>com.bourgedetrembleur.hepl.model.Command</class>
+        <class>com.bourgedetrembleur.hepl.model.Client</class>
+        <class>com.bourgedetrembleur.hepl.model.Category</class>
+        <class>com.bourgedetrembleur.hepl.model.Payement</class>
+        <class>com.bourgedetrembleur.hepl.model.Stock</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
 
@@ -27,8 +27,8 @@
 
             <property name="hibernate.show_sql" value="true"/>
             <!-- DB schema will be updated if needed -->
-            <property name="hibernate.hbm2ddl.auto"
-                      value="create"/>
+            <!--property name="hibernate.hbm2ddl.auto"
+                      value="create"/-->
         </properties>
     </persistence-unit>
 </persistence>

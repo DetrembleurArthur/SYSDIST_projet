@@ -10,5 +10,11 @@ public class Test
     {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("test");
         EntityManager manager = factory.createEntityManager();
+        manager.getTransaction().begin();
+
+        manager.getTransaction().commit();
+
+        manager.close();
+        factory.close();
     }
 }

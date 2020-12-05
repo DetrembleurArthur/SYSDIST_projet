@@ -1,7 +1,8 @@
-package com.bourgedetrembleur.hepl.modele;
+package com.bourgedetrembleur.hepl.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 
 
@@ -9,10 +10,11 @@ import java.util.Collection;
 public class Command implements Serializable
 {
     private int id;
-    private Collection<Item> items;
+    private Collection<Item> items = new ArrayList<>();
     private Client client;
     private int status;
     private float totalAmount;
+    private Payement payement;
 
     public void setId(int id)
     {
@@ -37,7 +39,8 @@ public class Command implements Serializable
         this.items = items;
     }
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "fk_client"))
     public Client getClient()
     {
         return client;
@@ -66,5 +69,18 @@ public class Command implements Serializable
     public void setTotalAmount(float totalAmount)
     {
         this.totalAmount = totalAmount;
+    }
+
+
+    @OneToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "fk_payement"))
+    public Payement getPayement()
+    {
+        return payement;
+    }
+
+    public void setPayement(Payement payement)
+    {
+        this.payement = payement;
     }
 }

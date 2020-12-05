@@ -1,7 +1,11 @@
-package com.bourgedetrembleur.hepl.modele;
+package com.bourgedetrembleur.hepl.model;
+
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 public class Client implements Serializable
@@ -10,6 +14,7 @@ public class Client implements Serializable
     private String name;
     private String address;
     private float amount;
+    private Collection<Command> commands = new ArrayList<>();
 
     public void setId(Integer id)
     {
@@ -28,7 +33,7 @@ public class Client implements Serializable
         this.id = id;
     }
 
-    @Column(nullable = false)
+
     public String getName()
     {
         return name;
@@ -58,5 +63,16 @@ public class Client implements Serializable
     public void setAmount(float amount)
     {
         this.amount = amount;
+    }
+
+    @OneToMany(mappedBy = "client")
+    public Collection<Command> getCommands()
+    {
+        return commands;
+    }
+
+    public void setCommands(Collection<Command> commands)
+    {
+        this.commands = commands;
     }
 }

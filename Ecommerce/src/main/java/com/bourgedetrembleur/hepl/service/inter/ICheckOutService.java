@@ -1,6 +1,6 @@
 package com.bourgedetrembleur.hepl.service.inter;
 
-import com.bourgedetrembleur.hepl.modele.Item;
+import com.bourgedetrembleur.hepl.model.Item;
 
 public interface ICheckOutService
 {

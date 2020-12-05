@@ -1,7 +1,7 @@
 package com.bourgedetrembleur.hepl.service.impl;
 
-import com.bourgedetrembleur.hepl.modele.Command;
-import com.bourgedetrembleur.hepl.modele.Stock;
+import com.bourgedetrembleur.hepl.model.Command;
+import com.bourgedetrembleur.hepl.model.Stock;
 import com.bourgedetrembleur.hepl.service.inter.IOrderService;
 import org.springframework.stereotype.Service;
 

@@ -1,18 +1,15 @@
-package com.bourgedetrembleur.hepl.modele;
+package com.bourgedetrembleur.hepl.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-public class Item implements Serializable
+public class Stock implements Serializable
 {
     private Integer id;
 
 
     private Article article;
-
-
-    private Command command;
 
     private int quantity;
 
@@ -28,7 +25,7 @@ public class Item implements Serializable
         return id;
     }
 
-    @ManyToOne
+    @OneToOne(mappedBy = "stock")
     public Article getArticle()
     {
         return article;
@@ -39,7 +36,6 @@ public class Item implements Serializable
         this.article = article;
     }
 
-    @Column(nullable = false)
     public int getQuantity()
     {
         return quantity;
@@ -48,16 +44,5 @@ public class Item implements Serializable
     public void setQuantity(int quantity)
     {
         this.quantity = quantity;
-    }
-
-    @ManyToOne
-    public Command getCommand()
-    {
-        return command;
-    }
-
-    public void setCommand(Command command)
-    {
-        this.command = command;
     }
 }

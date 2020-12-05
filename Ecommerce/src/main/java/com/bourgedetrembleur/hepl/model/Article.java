@@ -1,9 +1,9 @@
-package com.bourgedetrembleur.hepl.modele;
+package com.bourgedetrembleur.hepl.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 public class Article implements Serializable
@@ -19,7 +19,7 @@ public class Article implements Serializable
     private Stock stock;
 
 
-    private Collection<Item> items;
+    private Collection<Item> items = new ArrayList<>();
 
     public void setId(Integer id)
     {
@@ -56,6 +56,7 @@ public class Article implements Serializable
     }
 
     @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "fk_category"))
     public Category getCategory()
     {
         return category;
@@ -67,6 +68,7 @@ public class Article implements Serializable
     }
 
     @OneToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "fk_stock"))
     public Stock getStock()
     {
         return stock;

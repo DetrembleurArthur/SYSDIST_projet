@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Spring MVC SYSDIST Demo </title>
+</head>
+<body>
+<h1>Account List</h1>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+    </tr>
+    <tr th:each="article : ${articles}">
+        <td th:text="${article.getName()}"></td>
+        <td th:text="${article.getPrice()}"></td>
+    </tr>
+</table>
+<form action="/articles/next">
+    <button type="submit">next</button>
+</form>
+</body>
+</html>
