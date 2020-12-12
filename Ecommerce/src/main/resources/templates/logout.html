@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Logout</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="container">
+        <div th:if="${param.error}">
+            Invalid username and password.
+        </div>
+        <h1>Click the button to logout ([[${#httpServletRequest.remoteUser}]])</h1>
+        <form th:action="@{/logout}" method="post">
+            <div><input type="submit" class="btn btn-danger" value="Sign out"/></div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

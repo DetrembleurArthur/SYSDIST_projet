@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Spring MVC SYSDIST Demo </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+</head>
+<body>
+
+
+<div class="container-fluid">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" th:href="@{/store}">Store</a>
+            <div class="collapse navbar-collapse">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" th:if="!${#httpServletRequest.remoteUser}" th:href="@{/login}">login</a>
+                    <a class="nav-item nav-link" th:unless="!${#httpServletRequest.remoteUser}" th:href="@{/logout}">logout([[${#httpServletRequest.remoteUser}]])</a>
+                    <a class="nav-item nav-link" href="#">panier</a>
+                    <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </div>
+            </div>
+        </nav>
+
+
+        <h1>Welcome to the store!</h1>
+        <ul class="list-group">
+            <li class="list-group-item text-secondary" th:each="article : ${articles}">
+                <form method="post" th:action="@{/store/add}" th:object="${currentArticle}">
+                    <input type="submit" value="ajouter au panier" class="btn btn-outline-primary"/>
+                    [[${article.getName()}]]
+                    [[${article.getPrice()}]]
+                    <input th:value="${article.getName()}" name="articleName" type="text" hidden/>
+                    <input th:value="${article.getPrice()}" name="articlePrice" type="number" hidden/>
+                </form>
+            </li>
+        </ul>
+
+        Page <div th:text="${currentPage}"></div>
+        <div>
+            <a th:href="@{/store(numPage=${currentPage}, previous=true)}"><button class="btn btn-primary"><</button></a>
+            <a th:href="@{/store(numPage=${currentPage}, next=true)}"><button class="btn btn-primary">></button></a>
+        </div>
+    </div>
+</div>
+
+
+
+
+</body>
+</html>

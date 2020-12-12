@@ -11,15 +11,11 @@ public class Article implements Serializable
     private Integer id;
     private String name;
     private float price;
-
-
     private Category category;
-
-
     private Stock stock;
-
-
     private Collection<Item> items = new ArrayList<>();
+
+
 
     public void setId(Integer id)
     {

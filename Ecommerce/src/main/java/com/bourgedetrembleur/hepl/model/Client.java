@@ -1,7 +1,5 @@
 package com.bourgedetrembleur.hepl.model;
 
-import org.springframework.validation.annotation.Validated;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
