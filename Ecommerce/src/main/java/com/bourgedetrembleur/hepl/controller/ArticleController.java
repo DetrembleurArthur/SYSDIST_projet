@@ -2,10 +2,9 @@ package com.bourgedetrembleur.hepl.controller;
 
 
 import com.bourgedetrembleur.hepl.repository.ArticleRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,22 +33,43 @@ public class ArticleController
                         @RequestParam(name = "next", defaultValue = "false", required = false) Boolean next,
                         @RequestParam(name = "previous", defaultValue = "false", required = false) Boolean previous)
     {
-        if(next && articleRepository.count() / 2-1 > numPage)
+        if(next)
             numPage++;
-        else if(previous && numPage >= 1)
+        else if(previous)
             numPage--;
-        model.addAttribute("currentPage", numPage);
-        model.addAttribute("articles", articleRepository.findAll(PageRequest.of(numPage, 2)));
+        
+        if(numPage >= 0)
+        {
+            var result = articleRepository.findAll(PageRequest.of(numPage, ArticleRepository.PAGE_SIZE));
+            if(!result.isEmpty())
+            {
+                model.addAttribute("currentPage", numPage);
+                model.addAttribute("articles", result);
+            }
+            else
+            {
+                model.addAttribute("currentPage", 0);
+                model.addAttribute("articles", articleRepository.findAll(PageRequest.of(0, ArticleRepository.PAGE_SIZE)));
+            }
+        }
+        else
+        {
+            numPage = (int)articleRepository.count() / ArticleRepository.PAGE_SIZE;
+            model.addAttribute("currentPage", numPage);
+            model.addAttribute("articles", articleRepository.findAll(PageRequest.of(numPage, ArticleRepository.PAGE_SIZE)));
+        }
 
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("maxPage", (int)articleRepository.count() / ArticleRepository.PAGE_SIZE);
+        
+
         return "store";
     }
 
     @PostMapping("/store/add")
-    public String add(Model model, @RequestParam(name = "articleName") String articleName,
-                      @RequestParam(name = "articlePrice") int articlePrice)
+    public String add(Model model, @RequestParam("idArticle") int idArticle,
+    @RequestParam("numPage") int numPage)
     {
-        System.err.println("Buy " + articleName + " => " + articlePrice + "$");
-        return "store";
+        System.err.println("Buy " + idArticle);
+        return "redirect:/store?numPage=" + numPage;
     }
 }
