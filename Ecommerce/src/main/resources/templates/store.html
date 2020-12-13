@@ -9,31 +9,28 @@
 <body>
 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" th:href="@{/store}">Store</a>
-        <div class="collapse navbar-collapse">
-            <div class="navbar-nav">
-                <a class="nav-item nav-link" th:if="!${#httpServletRequest.remoteUser}" th:href="@{/login}">login</a>
-                <a class="nav-item nav-link" th:unless="!${#httpServletRequest.remoteUser}" th:href="@{/logout}">logout([[${#httpServletRequest.remoteUser}]])</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" th:href="@{/store}">Store</a>
+            <div class="collapse navbar-collapse">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" th:if="!${#httpServletRequest.remoteUser}" th:href="@{/login}">login</a>
+                    <a class="nav-item nav-link" th:unless="!${#httpServletRequest.remoteUser}" th:href="@{/logout}">logout([[${#httpServletRequest.remoteUser}]])</a>
+                </div>
             </div>
-        </div>
-    </nav>
-<div class="container-fluid">
+        </nav>
+    <div class="container-fluid">
 
     
 
     <div class="container">
-        
-
 
         <h1 style="text-align:center">Welcome to the store!</h1>
 
-
-        
-
+        <div class="alert alert-danger" th:if="${param.error}" th:text="${param.error}">
+        </div>
 
         <div class="row">
-            <ul class="col-md-6 list-group">
+            <ul class="col-md-7 list-group">
                 <div class="alert alert-primary">
                     <h3 class="">Articles</h3>
                     <span class="alert alert-light">Page [[${currentPage}]] / [[${maxPage}]]</span>
@@ -45,6 +42,9 @@
                         
                             <div class="alert alert-primary">
                                 <input type="submit"  value="+" class="btn btn-success"/>
+                                <label>
+                                    <input type="number" name="quantity" value="1" min="1" class="form-control form-control-range"/>
+                                </label>
                                 [[${article.getName()}]]
                                 <span class="badge badge-pill badge-secondary">[[${article.getCategory().getName()}]]</span>
                                 <span class="badge badge-warning">[[${article.getPrice()}]]€</span>
@@ -53,9 +53,9 @@
                     </form>
                 </li>
             </ul>
-            <ul class="col-md-6 list-group">
+            <ul class="col-md-5 list-group">
                 <div class="alert alert-success">
-                    <h3>Panier</h3>
+                    <h3>Cart</h3>
                     <span class="alert alert-light">Page [[${currentPage}]] / [[${maxPage}]]</span>
                     <a th:href="@{/store(numPage=${currentPage}, previous=true)}"><button class="btn btn-info">previous</button></a>
                     <a th:href="@{/store(numPage=${currentPage}, next=true)}"><button class="btn btn-info">next</button></a>

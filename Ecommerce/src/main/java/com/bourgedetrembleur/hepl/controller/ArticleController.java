@@ -3,6 +3,7 @@ package com.bourgedetrembleur.hepl.controller;
 
 import com.bourgedetrembleur.hepl.repository.ArticleRepository;
 
+import com.bourgedetrembleur.hepl.service.impl.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -15,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ArticleController
 {
     private ArticleRepository articleRepository;
+    private CartService cartService;
 
     @Autowired
-    public ArticleController(ArticleRepository articleRepository)
+    public ArticleController(ArticleRepository articleRepository, CartService cartService)
     {
         this.articleRepository = articleRepository;
+        this.cartService = cartService;
     }
 
     @GetMapping("/")
@@ -67,9 +70,13 @@ public class ArticleController
 
     @PostMapping("/store/add")
     public String add(Model model, @RequestParam("idArticle") int idArticle,
+  @RequestParam("quantity") int quantity,
     @RequestParam("numPage") int numPage)
     {
-        System.err.println("Buy " + idArticle);
+        if(!cartService.addItem(idArticle, quantity))
+        {
+            return "redirect:/store?numPage=" + numPage + "&error=Not enough article in the stock";
+        }
         return "redirect:/store?numPage=" + numPage;
     }
 }

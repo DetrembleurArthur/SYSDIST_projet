@@ -9,10 +9,16 @@ import java.util.Collection;
 @Entity
 public class Command implements Serializable
 {
+    public static String STAND_BY = "En stand by";
+    public static String PREPA="En preparation";
+    public static String EXPED="Expediee";
+    public static String RECEP="Receptionnee";
+
     private int id;
+    private String idSession;
     private Collection<Item> items = new ArrayList<>();
     private Client client;
-    private int status;
+    private String status;
     private float totalAmount;
     private Payement payement;
 
@@ -51,12 +57,12 @@ public class Command implements Serializable
         this.client = client;
     }
 
-    public int getStatus()
+    public String getStatus()
     {
         return status;
     }
 
-    public void setStatus(int status)
+    public void setStatus(String status)
     {
         this.status = status;
     }
@@ -82,5 +88,15 @@ public class Command implements Serializable
     public void setPayement(Payement payement)
     {
         this.payement = payement;
+    }
+
+    public String getIdSession()
+    {
+        return idSession;
+    }
+
+    public void setIdSession(String idSession)
+    {
+        this.idSession = idSession;
     }
 }

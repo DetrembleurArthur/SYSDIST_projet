@@ -1,15 +1,33 @@
 package com.bourgedetrembleur.hepl.service.impl;
 
-import com.bourgedetrembleur.hepl.model.Stock;
+import com.bourgedetrembleur.hepl.model.Article;
+import com.bourgedetrembleur.hepl.repository.ArticleRepository;
 import com.bourgedetrembleur.hepl.service.inter.IStockService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpSession;
 
 @Service
 public class StockService implements IStockService
 {
-    @Override
-    public boolean checkInventory(Stock stock, int quantity)
+    private ArticleRepository articleRepository;
+
+    @Autowired
+    public StockService(ArticleRepository articleRepository)
     {
-        return false;
+        this.articleRepository = articleRepository;
+    }
+
+
+    @Override
+    public boolean checkInventory(int idArticle, int quantity)
+    {
+        var optional = articleRepository.findById(idArticle);
+        Article article = optional.get();
+
+        return !(article.getStock() < quantity);
     }
 }

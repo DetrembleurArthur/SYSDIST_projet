@@ -10,6 +10,7 @@ public class Category implements Serializable
 {
     private Integer id;
     private String name;
+    private int tva;
 
 
     private Collection<Article> articles = new ArrayList<>();
@@ -46,5 +47,15 @@ public class Category implements Serializable
     public void setArticles(Collection<Article> articles)
     {
         this.articles = articles;
+    }
+
+    public int getTva()
+    {
+        return tva;
+    }
+
+    public void setTva(int tva)
+    {
+        this.tva = tva;
     }
 }

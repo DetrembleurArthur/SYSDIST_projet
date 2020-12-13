@@ -12,7 +12,7 @@ public class Article implements Serializable
     private String name;
     private float price;
     private Category category;
-    private Stock stock;
+    private int stock;
     private Collection<Item> items = new ArrayList<>();
 
 
@@ -63,14 +63,12 @@ public class Article implements Serializable
         this.category = category;
     }
 
-    @OneToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "fk_stock"))
-    public Stock getStock()
+    public int getStock()
     {
         return stock;
     }
 
-    public void setStock(Stock stock)
+    public void setStock(int stock)
     {
         this.stock = stock;
     }

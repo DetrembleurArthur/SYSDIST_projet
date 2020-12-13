@@ -7,13 +7,8 @@ import java.io.Serializable;
 public class Item implements Serializable
 {
     private Integer id;
-
-
     private Article article;
-
-
     private Command command;
-
     private int quantity;
 
     public void setId(Integer id)
