@@ -34,7 +34,7 @@ public class Command implements Serializable
         return id;
     }
 
-    @OneToMany(mappedBy = "command")
+    @OneToMany(fetch = FetchType.EAGER)
     public Collection<Item> getItems()
     {
         return items;
@@ -90,6 +90,7 @@ public class Command implements Serializable
         this.payement = payement;
     }
 
+    @Column(unique = true)
     public String getIdSession()
     {
         return idSession;

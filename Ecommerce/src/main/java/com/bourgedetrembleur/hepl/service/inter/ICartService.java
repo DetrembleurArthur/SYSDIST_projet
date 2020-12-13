@@ -4,6 +4,6 @@ import com.bourgedetrembleur.hepl.model.Article;
 
 public interface ICartService
 {
-    boolean addItem(int article, int quantity);
+    boolean addItem(int article, int quantity, String idSession);
     void removeItem(int idItem);
 }

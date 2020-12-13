@@ -1,6 +1,8 @@
 package com.bourgedetrembleur.hepl.controller;
 
 
+import javax.servlet.http.HttpSession;
+
 import com.bourgedetrembleur.hepl.repository.ArticleRepository;
 
 import com.bourgedetrembleur.hepl.service.impl.CartService;
@@ -69,11 +71,11 @@ public class ArticleController
     }
 
     @PostMapping("/store/add")
-    public String add(Model model, @RequestParam("idArticle") int idArticle,
-  @RequestParam("quantity") int quantity,
-    @RequestParam("numPage") int numPage)
+    public String add(Model model, HttpSession session, @RequestParam("idArticle") int idArticle,
+        @RequestParam("quantity") int quantity,
+        @RequestParam("numPage") int numPage)
     {
-        if(!cartService.addItem(idArticle, quantity))
+        if(!cartService.addItem(idArticle, quantity, session.getId()))
         {
             return "redirect:/store?numPage=" + numPage + "&error=Not enough article in the stock";
         }

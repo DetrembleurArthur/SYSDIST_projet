@@ -20,7 +20,7 @@ public class SessionListener implements HttpSessionListener
     public void sessionCreated(HttpSessionEvent se)
     {
         System.err.println("Hello i am a fucking session");
-        orderService.createOrder(se.getSession().getId());
+        //orderService.createOrder(se.getSession().getId());
     }
 
     @Override

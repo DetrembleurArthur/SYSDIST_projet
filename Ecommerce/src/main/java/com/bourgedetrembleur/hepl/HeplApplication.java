@@ -1,7 +1,11 @@
 package com.bourgedetrembleur.hepl;
 
+import com.bourgedetrembleur.hepl.model.User;
+import com.bourgedetrembleur.hepl.repository.UserRepository;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class HeplApplication

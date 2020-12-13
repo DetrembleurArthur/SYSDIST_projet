@@ -15,6 +15,7 @@
                 <div class="navbar-nav">
                     <a class="nav-item nav-link" th:if="!${#httpServletRequest.remoteUser}" th:href="@{/login}">login</a>
                     <a class="nav-item nav-link" th:unless="!${#httpServletRequest.remoteUser}" th:href="@{/logout}">logout([[${#httpServletRequest.remoteUser}]])</a>
+                    <a class="nav-item nav-link" th:if="!${#httpServletRequest.remoteUser}" th:href="@{/register}">register</a>
                 </div>
             </div>
         </nav>

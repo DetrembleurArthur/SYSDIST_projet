@@ -1,12 +1,13 @@
 
 
+truncate table command;
 truncate table item;
 truncate table category;
 truncate table article;
 
-insert into category values(1, 'book');
-insert into category values(2, 'video-game');
-insert into category values(3, 'goodie');
+insert into category values(1, 'book', 6);
+insert into category values(2, 'video-game', 21);
+insert into category values(3, 'goodie', 12);
 
 
 insert into article values(1, 'Halo cryptum', 8.5, 10, 1);
