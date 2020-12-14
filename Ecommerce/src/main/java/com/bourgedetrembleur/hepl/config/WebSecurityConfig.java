@@ -45,6 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     @Autowired
     private LogoutHandlerImpl logoutHandlerImpl;
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 

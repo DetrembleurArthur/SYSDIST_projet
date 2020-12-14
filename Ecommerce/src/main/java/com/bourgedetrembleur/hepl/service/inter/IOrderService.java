@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface IOrderService
 {
-    Command createOrder(String idSession);
-    void removeOrder(String idSession);
-    void removeOrderIfStatus(String idSession, String status);
-    void addItem(Item item, String idSession);
+    int createOrder();
+    void addItem(Item item, int idOrder);
 }

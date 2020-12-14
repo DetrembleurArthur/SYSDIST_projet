@@ -2,6 +2,8 @@ package com.bourgedetrembleur.hepl.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Date;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -15,12 +17,12 @@ public class Command implements Serializable
     public static String RECEP="Receptionnee";
 
     private int id;
-    private String idSession;
     private Collection<Item> items = new ArrayList<>();
-    private Client client;
+    private User user;
     private String status;
     private float totalAmount;
     private Payement payement;
+    private java.util.Date creationDate = java.util.Date.from(Instant.now());
 
     public void setId(int id)
     {
@@ -47,14 +49,14 @@ public class Command implements Serializable
 
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_client"))
-    public Client getClient()
+    public User getUser()
     {
-        return client;
+        return user;
     }
 
-    public void setClient(Client client)
+    public void setUser(User user)
     {
-        this.client = client;
+        this.user = user;
     }
 
     public String getStatus()
@@ -90,14 +92,11 @@ public class Command implements Serializable
         this.payement = payement;
     }
 
-    @Column(unique = true)
-    public String getIdSession()
-    {
-        return idSession;
+    public java.util.Date getCreationDate() {
+        return creationDate;
     }
 
-    public void setIdSession(String idSession)
-    {
-        this.idSession = idSession;
+    public void setCreationDate(java.util.Date creationDate) {
+        this.creationDate = creationDate;
     }
 }

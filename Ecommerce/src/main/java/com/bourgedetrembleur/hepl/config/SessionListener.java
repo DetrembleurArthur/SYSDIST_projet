@@ -27,6 +27,6 @@ public class SessionListener implements HttpSessionListener
     public void sessionDestroyed(HttpSessionEvent se)
     {
         System.err.println("Bye i am a fucking session");
-        orderService.removeOrderIfStatus(se.getSession().getId(), Command.STAND_BY);
+        //orderService.removeOrderIfStatus(se.getSession().getId(), Command.STAND_BY);
     }
 }

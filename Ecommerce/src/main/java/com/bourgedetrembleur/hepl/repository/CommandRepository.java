@@ -9,5 +9,5 @@ import java.util.Optional;
 @Repository
 public interface CommandRepository extends CrudRepository<Command, Integer>
 {
-    Command findByIdSession(String idSession);
+    
 }

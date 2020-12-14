@@ -27,63 +27,18 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public Command createOrder(String idSession) {
-        Command command;
-        if ((command = commandRepository.findByIdSession(idSession)) == null) {
-            command = new Command();
-            command.setIdSession(idSession);
-            command.setStatus(Command.STAND_BY);
-            command.setTotalAmount(0f);
-            commandRepository.save(command);
-        }
-        return command;
+    public int createOrder() {
+        Command command = new Command();
+        command.setStatus(Command.STAND_BY);
+        command.setTotalAmount(0f);
+        commandRepository.save(command);
+        return command.getId();
     }
 
     @Override
-    public synchronized void removeOrder(String idSession) {
-        var command = commandRepository.findByIdSession(idSession);
-        if (command != null) {
-            System.err.println("del command " + idSession);
-            for(Item item : command.getItems())
-            {
-                if(command.getStatus().equals(Command.STAND_BY))
-                    item.getArticle().setStock(item.getArticle().getStock() + item.getQuantity());
-                itemRepository.delete(item);
-            }
-            commandRepository.delete(command);
-        }
-    }
-
-    @Override
-    public void removeOrderIfStatus(String idSession, String status) {
-        var command = commandRepository.findByIdSession(idSession);
-        System.err.println("Hello! " + command + " from " + idSession);
-        if (command != null) {
-            if (command.getStatus().equals(status)) {
-                System.err.println("remove " + idSession);
-                System.err.println("del command");
-                commandRepository.delete(command);
-                for(Item item : command.getItems())
-                {
-                    System.err.println(item.getArticle().getName() + ":"+item.getQuantity());
-                    if(command.getStatus().equals(Command.STAND_BY))
-                    {
-                        System.err.println("restore...");
-                        item.getArticle().setStock(item.getArticle().getStock() + item.getQuantity());
-                        articleRepository.save(item.getArticle());
-                    }
-                    System.err.println("del item " + item.getId());
-                    itemRepository.delete(item);
-                }
-                
-            }
-        }
-    }
-
-    @Override
-    public void addItem(Item item, String idSession) {
+    public void addItem(Item item, int idOrder) {
         
-        Command command = commandRepository.findByIdSession(idSession);
+        Command command = commandRepository.findById(idOrder).get();
         if(command != null)
         {
             command.getItems().add(item);
