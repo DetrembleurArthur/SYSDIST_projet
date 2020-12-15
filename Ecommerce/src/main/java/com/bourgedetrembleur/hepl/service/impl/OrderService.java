@@ -2,6 +2,7 @@ package com.bourgedetrembleur.hepl.service.impl;
 
 import com.bourgedetrembleur.hepl.model.Command;
 import com.bourgedetrembleur.hepl.model.Item;
+import com.bourgedetrembleur.hepl.model.User;
 import com.bourgedetrembleur.hepl.repository.ArticleRepository;
 import com.bourgedetrembleur.hepl.repository.CommandRepository;
 import com.bourgedetrembleur.hepl.repository.ItemRepository;
@@ -36,14 +37,24 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public void addItem(Item item, int idOrder) {
+    public void addItem(Item item, int idOrder, User user) {
         
         Command command = commandRepository.findById(idOrder).get();
         if(command != null)
         {
             command.getItems().add(item);
+            command.setUser(user);
             commandRepository.save(command);
         }
+    }
 
+    public void link(User user, int idOrder)
+    {
+        Command command = commandRepository.findById(idOrder).get();
+        if(command != null)
+        {
+            command.setUser(user);
+            commandRepository.save(command);
+        }
     }
 }

@@ -51,13 +51,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 
         http
                 .authorizeRequests()
-                .antMatchers("/store", "/store/add", "/register", "/signup")
+                .antMatchers("/store", "/store/**", "/register", "/signup")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/store", true)
+                .defaultSuccessUrl("/store/justlogin", true)
                 .permitAll()
                 .and()
                 .logout()

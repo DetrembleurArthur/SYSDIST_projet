@@ -35,7 +35,8 @@ public class RegisterController
     public String signup(Model model,
         @RequestParam("username") String username,
         @RequestParam("password") String password,
-        @RequestParam("confpassword") String confpassword)
+        @RequestParam("confpassword") String confpassword,
+         @RequestParam("address") String address)
     {
         if(password.equals(confpassword))
         {
@@ -45,7 +46,9 @@ public class RegisterController
                 user.setUsername(username);
                 user.setPassword(passwordEncoder.encode(password));
                 user.setRole("user");
+                user.setAddress(address);
                 user.setEnabled(true);
+                user.setAmount(300);
                 userRepository.save(user);
             }
             else

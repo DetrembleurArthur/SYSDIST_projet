@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ItemRepository extends PagingAndSortingRepository<Item, Integer>
 {
+    public static final int PAGE_SIZE = 5;
 }

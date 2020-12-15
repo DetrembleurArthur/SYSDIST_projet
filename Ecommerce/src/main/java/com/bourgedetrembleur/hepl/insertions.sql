@@ -1,5 +1,4 @@
 
-
 truncate table command;
 truncate table item;
 truncate table category;
@@ -13,6 +12,16 @@ truncate table user;
 -- every 1 minute
 -- do
 -- delete from command where status like 'En stand by';*/
+
+drop trigger if exists del_com_item;
+
+CREATE TRIGGER del_com_item
+    before DELETE
+         ON item FOR EACH ROW
+BEGIN
+    delete from command_items where command_items.items_id = OLD.id;
+END;
+
 
 insert into category values(1, 'book', 6);
 insert into category values(2, 'video-game', 21);
