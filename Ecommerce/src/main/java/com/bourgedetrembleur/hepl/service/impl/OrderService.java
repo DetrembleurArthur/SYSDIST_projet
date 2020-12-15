@@ -16,15 +16,13 @@ import java.util.List;
 public class OrderService implements IOrderService {
     private CommandRepository commandRepository;
     private ItemRepository itemRepository;
-    private ArticleRepository articleRepository;
+    private StockService stockService;
 
     @Autowired
-    public OrderService(CommandRepository commandRepository,
-    ItemRepository itemRepository,
-    ArticleRepository articleRepository) {
+    public OrderService(CommandRepository commandRepository,StockService stockService,ItemRepository itemRepository) {
         this.commandRepository = commandRepository;
+        this.stockService = stockService;
         this.itemRepository = itemRepository;
-        this.articleRepository = articleRepository;
     }
 
     @Override
@@ -38,23 +36,51 @@ public class OrderService implements IOrderService {
 
     @Override
     public void addItem(Item item, int idOrder, User user) {
-        
-        Command command = commandRepository.findById(idOrder).get();
-        if(command != null)
+        var opt = commandRepository.findById(idOrder);
+        if(opt.isPresent())
         {
-            command.getItems().add(item);
-            command.setUser(user);
-            commandRepository.save(command);
+            Command command = opt.get();
+            if(command != null)
+            {
+                command.getItems().add(item);
+                command.setUser(user);
+                commandRepository.save(command);
+            }
         }
     }
 
     public void link(User user, int idOrder)
     {
-        Command command = commandRepository.findById(idOrder).get();
-        if(command != null)
+        var opt = commandRepository.findById(idOrder);
+        if(opt.isPresent())
         {
-            command.setUser(user);
-            commandRepository.save(command);
+            Command command = opt.get();
+            if(command != null)
+            {
+                command.setUser(user);
+                commandRepository.save(command);
+            }
+        }
+    }
+
+    public void removeCommand(User user)
+    {
+        var iter = commandRepository.findAllByUser(user);
+        for(Command c : iter)
+        {
+            if(c.getStatus().equals(Command.STAND_BY))
+            {
+                var items = c.getItems();
+                
+                //itemRepository.deleteAll(c.getItems());
+                commandRepository.delete(c);
+                for(Item item : items)
+                {
+                    System.err.println("restock item");
+                    stockService.restock(item);
+                }
+                itemRepository.deleteAll(c.getItems());
+            }
         }
     }
 }

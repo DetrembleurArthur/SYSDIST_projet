@@ -76,7 +76,6 @@ public class ArticleController
         model.addAttribute("maxPage", (int)articleRepository.count() / ArticleRepository.PAGE_SIZE);
 
 
-
         if(!commandId.equals("-1"))
         {
             model.addAttribute("items", cartService.getCart(Integer.parseInt(commandId)));
@@ -119,6 +118,7 @@ public class ArticleController
         {
             return "redirect:/store?numPage=" + numPage + "&error=Not enough article in the stock";
         }
+
         response.addCookie(new Cookie("command-id", String.valueOf(idCommand)));
         
         return "redirect:/store?numPage=" + numPage;

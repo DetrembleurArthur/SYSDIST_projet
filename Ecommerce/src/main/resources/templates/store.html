@@ -58,7 +58,11 @@
                 <div class="alert alert-success">
                     <h3>Cart</h3>
                     <a th:href="@{/store/clear}"><button class="btn btn-danger">clear</button></a>
-                    <a href="#"><button class="btn btn-warning">pay</button></a>
+                    <a href="#"><button class="btn btn-warning">finalize</button></a>
+                    <select name="livraison" class="form-select form-select-sm">
+                        <option value="normal">Normal</option>
+                        <option value="express">Express</option>
+                    </select>
                 </div>
                 <li class="list-group-item text-success" th:each="item : ${items}">
                     <form method="POST" th:action="@{/store/sub(idItem=${item.getItemId()})}">

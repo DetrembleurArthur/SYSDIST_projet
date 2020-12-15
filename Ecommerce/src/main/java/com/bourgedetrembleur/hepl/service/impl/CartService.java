@@ -45,6 +45,7 @@ public class CartService implements ICartService
     {
         if(!stockService.checkInventory(idArticle, quantity))
         {
+            System.err.println("ERROR STOCK");
             return -1;
         }
         
@@ -55,21 +56,26 @@ public class CartService implements ICartService
 
         if(idOrder == -1 || !commandRepository.existsById(idOrder))
         {
+            System.err.println("CREATION ORDER id");
             idOrder = orderService.createOrder();
-
         }
 
         itemRepository.save(item);
 
         orderService.addItem(item, idOrder, user);
+        System.err.println("ORDER " + idOrder);
         return idOrder;
     }
 
     @Override
     public void removeItem(int idItem)
     {
-        restock(idItem);
-        itemRepository.deleteById(idItem);
+        var opt = itemRepository.findById(idItem);
+        if(opt.isPresent())
+        {
+            stockService.restock(opt.get());
+            itemRepository.deleteById(idItem);
+        }
     }
 
     public void clearCart(int idCommand)
@@ -79,28 +85,21 @@ public class CartService implements ICartService
         {
             Command command = opt.get();
             for(Item item : command.getItems())
-                restock(item.getId());
+                stockService.restock(item);
             itemRepository.deleteAll(command.getItems());
-        }
-    }
-
-    private void restock(int idItem)
-    {
-        var opt = itemRepository.findById(idItem);
-        if(opt.isPresent())
-        {
-            Item item = opt.get();
-            item.getArticle().setStock(item.getArticle().getStock() + item.getQuantity());
-            item.setQuantity(0);
         }
     }
 
     public Collection<ItemInfosDTO> getCart(int idOrder)
     {
         ArrayList<ItemInfosDTO> itemInfosDTOS = new ArrayList<>();
+        Command command = null;
         if(commandRepository.existsById(idOrder))
+            command = commandRepository.findById(idOrder).get();
+        if(command != null)
         {
-            for(Item item : commandRepository.findById(idOrder).get().getItems())
+            
+            for(Item item : command.getItems())
             {
                 ItemInfosDTO itemInfosDTO = new ItemInfosDTO();
                 itemInfosDTO.setArticleName(item.getArticle().getName());

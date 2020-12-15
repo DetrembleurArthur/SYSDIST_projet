@@ -1,6 +1,7 @@
 package com.bourgedetrembleur.hepl.service.impl;
 
 import com.bourgedetrembleur.hepl.model.Article;
+import com.bourgedetrembleur.hepl.model.Item;
 import com.bourgedetrembleur.hepl.repository.ArticleRepository;
 import com.bourgedetrembleur.hepl.service.inter.IStockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,12 @@ public class StockService implements IStockService
         Article article = optional.get();
 
         return !(article.getStock() < quantity);
+    }
+
+    public void restock(Item item)
+    {
+        item.getArticle().setStock(item.getArticle().getStock() + item.getQuantity());
+        item.setQuantity(0);
+        articleRepository.save(item.getArticle());
     }
 }
