@@ -29,7 +29,6 @@ public class OrderService implements IOrderService {
     public int createOrder() {
         Command command = new Command();
         command.setStatus(Command.STAND_BY);
-        command.setTotalAmount(0f);
         commandRepository.save(command);
         return command.getId();
     }

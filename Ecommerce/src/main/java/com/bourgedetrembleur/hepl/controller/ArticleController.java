@@ -98,7 +98,7 @@ public class ArticleController
             MyUserDetails user = (MyUserDetails) authentication.getPrincipal();
             orderService.link(user.getUser(), Integer.parseInt(commandId));
         }
-        return "redirect:/store";
+        return "redirect:/store?success=You are successfuly logged " + authentication.getName();
     }
 
     @PostMapping("/store/add")
@@ -122,7 +122,9 @@ public class ArticleController
             return "redirect:/store?numPage=" + numPage + "&error=Not enough article in the stock";
         }
 
-        response.addCookie(new Cookie("command-id", String.valueOf(idCommand)));
+        var cookie = new Cookie("command-id", String.valueOf(idCommand));
+        cookie.setPath("/");
+        response.addCookie(cookie);
         
         return "redirect:/store?numPage=" + numPage;
     }

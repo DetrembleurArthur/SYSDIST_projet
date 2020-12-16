@@ -20,7 +20,6 @@ public class Command implements Serializable
     private Collection<Item> items = new ArrayList<>();
     private User user;
     private String status;
-    private float totalAmount;
     private Payement payement;
     private java.util.Date creationDate = java.util.Date.from(Instant.now());
 
@@ -68,18 +67,7 @@ public class Command implements Serializable
     {
         this.status = status;
     }
-
-    public float getTotalAmount()
-    {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(float totalAmount)
-    {
-        this.totalAmount = totalAmount;
-    }
-
-
+    
     @OneToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_payement"))
     public Payement getPayement()

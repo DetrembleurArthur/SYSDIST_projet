@@ -1,8 +1,10 @@
 package com.bourgedetrembleur.hepl.service.inter;
 
+import com.bourgedetrembleur.hepl.model.Command;
 import com.bourgedetrembleur.hepl.model.Item;
+import com.bourgedetrembleur.hepl.model.Payement;
 
 public interface ICheckOutService
 {
-    void doCheckOut(Item panier);
+    Payement doCheckOut(Command command, String expeditionMode);
 }

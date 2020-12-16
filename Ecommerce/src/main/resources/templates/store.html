@@ -30,6 +30,9 @@
         <div class="alert alert-danger" th:if="${param.error}" th:text="${param.error}">
         </div>
 
+        <div class="alert alert-success" th:if="${param.success}" th:text="${param.success}">
+        </div>
+
         <div class="row">
             <ul class="col-md-7 list-group">
                 <div class="alert alert-primary">
@@ -58,11 +61,15 @@
                 <div class="alert alert-success">
                     <h3>Cart</h3>
                     <a th:href="@{/store/clear}"><button class="btn btn-danger">clear</button></a>
-                    <a href="#"><button class="btn btn-warning">finalize [[${priceTTC}]]€ TTC</button></a>
-                    <select name="livraison" class="form-select form-select-sm">
+                    
+                    <form th:action="@{/payement/finalize}" method="POST">
+                        <input type="submit" th:value="'finalize ' + ${priceTTC} + '€'" class="btn btn-warning"/>
+                        <select name="livraison" class="form-select form-select-sm">
                         <option value="normal">Normal</option>
                         <option value="express">Express</option>
                     </select>
+                    </form>
+                    
                 </div>
                 <li class="list-group-item text-success" th:each="item : ${items}">
                     <form method="POST" th:action="@{/store/sub(idItem=${item.getItemId()})}">
