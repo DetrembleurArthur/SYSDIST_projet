@@ -1,14 +1,31 @@
 package com.bourgedetrembleur.hepl.service.impl;
 
+import com.bourgedetrembleur.hepl.model.Category;
+import com.bourgedetrembleur.hepl.model.Item;
 import com.bourgedetrembleur.hepl.service.inter.ITVAService;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
 
 @Service
 public class TVAService implements ITVAService
 {
     @Override
-    public int getTVA(int idCategory)
+    public float getTVA(Item item)
     {
-        return 0;
+        float price = item.getQuantity() * item.getArticle().getPrice();
+        return price + price  * (item.getArticle().getCategory().getTva() / 100f);
+
+    }
+
+    @Override
+    public float getTVA(Collection<Item> items)
+    {
+        float priceTTV = 0f;
+        for(Item item : items)
+        {
+            priceTTV += getTVA(item);
+        }
+        return priceTTV;
     }
 }

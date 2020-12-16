@@ -12,6 +12,7 @@ import com.bourgedetrembleur.hepl.repository.ArticleRepository;
 import com.bourgedetrembleur.hepl.repository.ItemRepository;
 import com.bourgedetrembleur.hepl.service.impl.CartService;
 import com.bourgedetrembleur.hepl.service.impl.OrderService;
+import com.bourgedetrembleur.hepl.service.impl.TVAService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
@@ -25,13 +26,15 @@ public class ArticleController
     private ArticleRepository articleRepository;
     private CartService cartService;
     private OrderService orderService;
+    private TVAService tvaService;
 
     @Autowired
-    public ArticleController(ArticleRepository articleRepository, CartService cartService, OrderService orderService)
+    public ArticleController(ArticleRepository articleRepository, CartService cartService, OrderService orderService,TVAService tvaService)
     {
         this.articleRepository = articleRepository;
         this.cartService = cartService;
         this.orderService = orderService;
+        this.tvaService = tvaService;
     }
 
     @GetMapping("/")
@@ -138,5 +141,15 @@ public class ArticleController
     {
         cartService.clearCart(Integer.parseInt(commandId));
         return "redirect:/store";
+    }
+
+    @ModelAttribute("priceTTC")
+    public void priceTTC(Model model, @CookieValue(name = "command-id", defaultValue = "-1") String commandId)
+    {
+        int id = Integer.parseInt(commandId);
+        if(id != -1)
+            model.addAttribute("priceTTC", tvaService.getTVA(cartService.getOriginalCart(id)));
+        else
+            model.addAttribute("priceTTC", 0);
     }
 }

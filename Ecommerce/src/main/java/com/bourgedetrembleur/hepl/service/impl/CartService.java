@@ -90,25 +90,31 @@ public class CartService implements ICartService
         }
     }
 
-    public Collection<ItemInfosDTO> getCart(int idOrder)
+    public Collection<Item> getOriginalCart(int idOrder)
     {
-        ArrayList<ItemInfosDTO> itemInfosDTOS = new ArrayList<>();
         Command command = null;
         if(commandRepository.existsById(idOrder))
             command = commandRepository.findById(idOrder).get();
         if(command != null)
         {
-            
-            for(Item item : command.getItems())
-            {
-                ItemInfosDTO itemInfosDTO = new ItemInfosDTO();
-                itemInfosDTO.setArticleName(item.getArticle().getName());
-                itemInfosDTO.setQuantity(item.getQuantity());
-                itemInfosDTO.setPrice(item.getArticle().getPrice());
-                itemInfosDTO.setCategory(item.getArticle().getCategory().getName());
-                itemInfosDTO.setItemId(item.getId());
-                itemInfosDTOS.add(itemInfosDTO);
-            }
+            return command.getItems();
+        }
+        return new ArrayList<>();
+    }
+
+    public Collection<ItemInfosDTO> getCart(int idOrder)
+    {
+        ArrayList<ItemInfosDTO> itemInfosDTOS = new ArrayList<>();
+        var items = getOriginalCart(idOrder);
+        for(Item item : items)
+        {
+            ItemInfosDTO itemInfosDTO = new ItemInfosDTO();
+            itemInfosDTO.setArticleName(item.getArticle().getName());
+            itemInfosDTO.setQuantity(item.getQuantity());
+            itemInfosDTO.setPrice(item.getArticle().getPrice());
+            itemInfosDTO.setCategory(item.getArticle().getCategory().getName());
+            itemInfosDTO.setItemId(item.getId());
+            itemInfosDTOS.add(itemInfosDTO);
         }
         return itemInfosDTOS;
     }

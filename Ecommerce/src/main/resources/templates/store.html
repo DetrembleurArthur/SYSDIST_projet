@@ -58,7 +58,7 @@
                 <div class="alert alert-success">
                     <h3>Cart</h3>
                     <a th:href="@{/store/clear}"><button class="btn btn-danger">clear</button></a>
-                    <a href="#"><button class="btn btn-warning">finalize</button></a>
+                    <a href="#"><button class="btn btn-warning">finalize [[${priceTTC}]]€ TTC</button></a>
                     <select name="livraison" class="form-select form-select-sm">
                         <option value="normal">Normal</option>
                         <option value="express">Express</option>
@@ -73,7 +73,7 @@
                                 <span class="badge badge-pill badge-secondary">[[${item.getCategory()}]]</span>
                                 <span class="badge badge-info">[[${item.getQuantity()}]]
                                 <span class="badge badge-dark">[[${item.getPrice()}]]€</span></span>
-                                Full price: <span class="badge badge-warning">[[${item.getFullPrice()}]]€</span>
+                                : <span class="badge badge-warning">[[${item.getFullPrice()}]]€</span>
                             </div>
                         
                     </form>
