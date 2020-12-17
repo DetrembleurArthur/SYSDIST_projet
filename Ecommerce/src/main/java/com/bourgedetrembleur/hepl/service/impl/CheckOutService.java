@@ -18,9 +18,6 @@ public class CheckOutService implements ICheckOutService
     public static final String EXPRESS = "express";
 
     @Autowired
-    private ITVAService tvaService;
-
-    @Autowired
     private PayementRepository payementRepository;
 
     @Autowired
@@ -33,7 +30,7 @@ public class CheckOutService implements ICheckOutService
         command.setStatus(Command.PREPA);
         Payement payement = new Payement();
         payement.setPayed(false);
-        payement.setAmount(expeditionPrice  + tvaService.getTVA(command.getItems()));
+        //payement.setAmount(expeditionPrice  + tvaService.getTVA(command.getItems()));
         payement.setCommand(command);
         payement.setUser(command.getUser());
         command.setPayement(payement);

@@ -11,6 +11,7 @@ import com.bourgedetrembleur.hepl.repository.ItemRepository;
 import com.bourgedetrembleur.hepl.service.inter.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,6 +24,9 @@ public class CartService implements ICartService
     private StockService stockService;
     private OrderService orderService;
     private ArticleRepository articleRepository;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Autowired
     public CartService(
@@ -117,6 +121,25 @@ public class CartService implements ICartService
             itemInfosDTOS.add(itemInfosDTO);
         }
         return itemInfosDTOS;
+    }
+
+    public float getFullPrice(int idOrder)
+    {
+        var items = getOriginalCart(idOrder);
+        float price = 0f;
+        for(var item : items)
+        {
+            float fullPriceItem = item.getQuantity() * item.getArticle().getPrice();
+            Float tmp = restTemplate.getForObject(
+                    "http://127.0.0.1:8765/eureka-zuul-tva-service/get?fullPrice=" + fullPriceItem + "&idCategory=" + item.getArticle().getCategory().getId(),
+                    Float.class);
+            System.err.println("TMP " + tmp);
+            if(tmp != null && tmp != -1)
+            {
+                price += tmp;
+            }
+        }
+        return price;
     }
 
 }
