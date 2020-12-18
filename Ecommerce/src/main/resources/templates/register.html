@@ -13,6 +13,7 @@
         <div th:if="${param.error}">
             [[${param.error}]]
         </div>
+        <a th:href="@{/store}">Back to store</a>
         <form th:action="@{/signup}" method="post">
             <div><label> User Name : <input type="text" name="username"/> </label></div>
             <div><label> Password: <input type="password" name="password"/> </label></div>

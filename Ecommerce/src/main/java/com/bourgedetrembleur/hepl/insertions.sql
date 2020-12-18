@@ -5,6 +5,7 @@ truncate table category;
 truncate table article;
 truncate table command_items;
 truncate table user;
+truncate table payement;
 -- drop event if exists dropStandByCommandEvent;
 -- drop event if exists e_hourly;
 -- create event dropStandByCommandEvent
@@ -17,7 +18,7 @@ drop trigger if exists del_com_item;
 
 CREATE TRIGGER del_com_item
     before DELETE
-         ON item FOR EACH ROW
+    ON item FOR EACH ROW
 BEGIN
     delete from command_items where command_items.items_id = OLD.id;
 END;

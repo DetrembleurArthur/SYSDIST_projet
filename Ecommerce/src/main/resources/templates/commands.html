@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Commands</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="container">
+
+        <div th:if="${param.error}">
+            Invalid username and password.
+        </div>
+
+        <a th:href="@{/store}">Back to store</a>
+
+        <h1>Commands of [[${#httpServletRequest.remoteUser}]]</h1>
+
+        <table class="table table-striped">
+            <thead class="table-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Status</th>
+                <th scope="col">Amount</th>
+                <th scope="col">View</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="commandInfoDTO : ${commandInfoDTOs}">
+                <th scope="row">[[${commandInfoDTO.getCommandId()}]]</th>
+                <td><strong>[[${commandInfoDTO.getStatus()}]]</strong></td>
+                <td><strong>[[${commandInfoDTO.getAmount()}]]€</strong></td>
+                <form method="post" th:action="@{commands(idCommand=${commandInfoDTO.getCommandId()})}">
+                    <td><input type="submit" value="view details" class="btn btn-outline-secondary"/></td>
+                </form>
+            </tr>
+            </tbody>
+        </table>
+
+        <div th:if="${param.idCommand}">
+            <h2>Cart of command #[[${param.idCommand}]]</h2>
+            <table class="table table-striped">
+                <thead class="table-secondary">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Quantity</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="itemInfoDTO : ${itemInfoDTOs}">
+                    <th scope="row">[[${itemInfoDTO.getItemId()}]]</th>
+                    <td><strong>[[${itemInfoDTO.getArticleName()}]]</strong></td>
+                    <td><strong>[[${itemInfoDTO.getPrice()}]]€</strong></td>
+                    <td><strong>[[${itemInfoDTO.getCategory()}]]</strong></td>
+                    <td><strong>[[${itemInfoDTO.getQuantity()}]]</strong></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

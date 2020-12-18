@@ -8,7 +8,6 @@
 </head>
 <body>
 
-
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" th:href="@{/store}">Store</a>
             <div class="collapse navbar-collapse">
@@ -16,6 +15,8 @@
                     <a class="nav-item nav-link" th:if="!${#httpServletRequest.remoteUser}" th:href="@{/login}">login</a>
                     <a class="nav-item nav-link" th:unless="!${#httpServletRequest.remoteUser}" th:href="@{/logout}">logout([[${#httpServletRequest.remoteUser}]])</a>
                     <a class="nav-item nav-link" th:if="!${#httpServletRequest.remoteUser}" th:href="@{/register}">register</a>
+                    <a class="nav-item nav-link" th:if="${#httpServletRequest.remoteUser}" th:href="@{/commands}">commands</a>
+                    <a class="nav-item nav-link" th:if="${#httpServletRequest.remoteUser}" th:href="@{/money}">money([[${account}]])</a>
                 </div>
             </div>
         </nav>
@@ -58,11 +59,12 @@
                 </li>
             </ul>
             <ul class="col-md-5 list-group">
-                <div class="alert alert-success">
+                <div class="alert alert-success align-content-center">
                     <h3>Cart</h3>
-                    <a th:href="@{/store/clear}"><button class="btn btn-danger">clear</button></a>
+
                     
                     <form th:action="@{/payement/finalize}" method="POST">
+                        <a th:href="@{/store/clear}" class="btn btn-danger">clear</a>
                         <input type="submit" th:value="'finalize ' + ${priceTTC} + '€'" class="btn btn-warning"/>
                         <select name="livraison" class="form-select form-select-sm">
                         <option value="normal">Normal</option>
@@ -70,6 +72,9 @@
                     </select>
                     </form>
                     
+                </div>
+                <div th:if="!${items}">
+                    No items in your cart
                 </div>
                 <li class="list-group-item text-success" th:each="item : ${items}">
                     <form method="POST" th:action="@{/store/sub(idItem=${item.getItemId()})}">

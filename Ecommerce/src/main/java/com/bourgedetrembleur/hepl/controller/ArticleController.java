@@ -4,6 +4,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bourgedetrembleur.hepl.config.MyUserDetails;
+import com.bourgedetrembleur.hepl.exc.Error;
 import com.bourgedetrembleur.hepl.model.User;
 import com.bourgedetrembleur.hepl.repository.ArticleRepository;
 
@@ -43,7 +44,8 @@ public class ArticleController
     public String index(Model model, @RequestParam(name = "numPage", defaultValue = "0") Integer numPage,
                         @RequestParam(name = "next", defaultValue = "false", required = false) Boolean next,
                         @RequestParam(name = "previous", defaultValue = "false", required = false) Boolean previous,
-                        @CookieValue(name = "command-id", defaultValue = "-1") String commandId)
+                        @CookieValue(name = "command-id", defaultValue = "-1") String commandId,
+                        Authentication authentication)
     {
 
         if(next)
@@ -78,6 +80,11 @@ public class ArticleController
         if(!commandId.equals("-1"))
         {
             model.addAttribute("items", cartService.getCart(Integer.parseInt(commandId)));
+        }
+
+        if(authentication != null)
+        {
+            model.addAttribute("account", ((MyUserDetails)authentication.getPrincipal()).getUser().getAmount() + "€");
         }
 
         return "store";
@@ -147,7 +154,13 @@ public class ArticleController
         int id = Integer.parseInt(commandId);
         if(id != -1)
         {
-            model.addAttribute("priceTTC", cartService.getFullPrice(id));
+            try
+            {
+                model.addAttribute("priceTTC", cartService.getFullPrice(id));
+            } catch (Error error)
+            {
+                model.addAttribute("priceTTC", "/");
+            }
         }
         else
             model.addAttribute("priceTTC", 0);

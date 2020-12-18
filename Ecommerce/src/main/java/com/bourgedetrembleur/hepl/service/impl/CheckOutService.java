@@ -1,10 +1,12 @@
 package com.bourgedetrembleur.hepl.service.impl;
 
+import com.bourgedetrembleur.hepl.exc.Error;
 import com.bourgedetrembleur.hepl.model.Command;
 import com.bourgedetrembleur.hepl.model.Item;
 import com.bourgedetrembleur.hepl.model.Payement;
 import com.bourgedetrembleur.hepl.repository.CommandRepository;
 import com.bourgedetrembleur.hepl.repository.PayementRepository;
+import com.bourgedetrembleur.hepl.service.ZuulTVAService;
 import com.bourgedetrembleur.hepl.service.inter.ICheckOutService;
 import com.bourgedetrembleur.hepl.service.inter.ITVAService;
 
@@ -23,14 +25,21 @@ public class CheckOutService implements ICheckOutService
     @Autowired
     private CommandRepository commandRepository;
 
+    @Autowired
+    private ZuulTVAService zuulTVAService;
+
     @Override
-    public Payement doCheckOut(Command command, String expeditionMode)
+    public Payement doCheckOut(Command command, String expeditionMode) throws Error
     {
+        if(command.getItems().isEmpty())
+        {
+            throw new Error("CART-IS-EMPTY");
+        }
         float expeditionPrice = expeditionMode.equals(NORMAL) ? 5f : 10f;
         command.setStatus(Command.PREPA);
         Payement payement = new Payement();
         payement.setPayed(false);
-        //payement.setAmount(expeditionPrice  + tvaService.getTVA(command.getItems()));
+        payement.setAmount(expeditionPrice  + zuulTVAService.getTVA(command.getItems()));
         payement.setCommand(command);
         payement.setUser(command.getUser());
         command.setPayement(payement);

@@ -3,6 +3,7 @@ package com.bourgedetremleur.tvaservice.service;
 import com.bourgedetremleur.tvaservice.Category;
 import com.bourgedetremleur.tvaservice.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.stereotype.Service;
 
 
@@ -12,6 +13,7 @@ public class TVAService
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @LoadBalanced
     public float getTVA(float fullPriceHTVA, int idCategory)
     {
         var opt = categoryRepository.findById(idCategory);

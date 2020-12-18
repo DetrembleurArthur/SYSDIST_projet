@@ -3,6 +3,8 @@ package com.bourgedetrembleur.hepl.service.impl;
 import com.bourgedetrembleur.hepl.model.Command;
 import com.bourgedetrembleur.hepl.model.Item;
 import com.bourgedetrembleur.hepl.model.User;
+import com.bourgedetrembleur.hepl.model.dto.CommandInfoDTO;
+import com.bourgedetrembleur.hepl.model.dto.ItemInfosDTO;
 import com.bourgedetrembleur.hepl.repository.ArticleRepository;
 import com.bourgedetrembleur.hepl.repository.CommandRepository;
 import com.bourgedetrembleur.hepl.repository.ItemRepository;
@@ -10,6 +12,8 @@ import com.bourgedetrembleur.hepl.service.inter.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -81,5 +85,23 @@ public class OrderService implements IOrderService {
                 itemRepository.deleteAll(c.getItems());
             }
         }
+    }
+
+    public Collection<CommandInfoDTO> getCommandDTO(User user)
+    {
+        Collection<CommandInfoDTO> commandInfoDTOS = new ArrayList<>();
+        var commands = commandRepository.findAllByUser(user);
+        for(var command : commands)
+        {
+            CommandInfoDTO commandInfoDTO = new CommandInfoDTO();
+            if(!command.getStatus().equals(Command.STAND_BY))
+            {
+                commandInfoDTO.setAmount(command.getPayement().getAmount());
+                commandInfoDTO.setStatus(command.getStatus());
+                commandInfoDTO.setCommandId(command.getId());
+                commandInfoDTOS.add(commandInfoDTO);
+            }
+        }
+        return commandInfoDTOS;
     }
 }

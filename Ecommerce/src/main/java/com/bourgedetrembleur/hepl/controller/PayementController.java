@@ -3,6 +3,7 @@ package com.bourgedetrembleur.hepl.controller;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import com.bourgedetrembleur.hepl.exc.Error;
 import com.bourgedetrembleur.hepl.model.Command;
 import com.bourgedetrembleur.hepl.model.Payement;
 import com.bourgedetrembleur.hepl.repository.CommandRepository;
@@ -39,7 +40,18 @@ public class PayementController
                 Command command = opt.get();
                 if(command.getUser() != null)
                 {
-                    Payement payement = checkOutService.doCheckOut(opt.get(), livraison);
+                    try
+                    {
+                        Payement payement = checkOutService.doCheckOut(opt.get(), livraison);
+                    } catch (Error error)
+                    {
+                        if(error.getMessage().equals("CART-IS-EMPTY"))
+                        {
+                            return "redirect:/store?error=Your cart is empty";
+                        }
+                        else
+                            return "redirect:/store?error=TVA service disabled";
+                    }
                     var cookie = new Cookie("command-id", "-1");
                     cookie.setPath("/");
                     response.addCookie(cookie);

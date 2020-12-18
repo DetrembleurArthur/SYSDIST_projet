@@ -1,6 +1,7 @@
 package com.bourgedetrembleur.hepl.service.impl;
 
 import com.bourgedetrembleur.hepl.Utils;
+import com.bourgedetrembleur.hepl.exc.Error;
 import com.bourgedetrembleur.hepl.model.Command;
 import com.bourgedetrembleur.hepl.model.Item;
 import com.bourgedetrembleur.hepl.model.User;
@@ -8,6 +9,7 @@ import com.bourgedetrembleur.hepl.model.dto.ItemInfosDTO;
 import com.bourgedetrembleur.hepl.repository.ArticleRepository;
 import com.bourgedetrembleur.hepl.repository.CommandRepository;
 import com.bourgedetrembleur.hepl.repository.ItemRepository;
+import com.bourgedetrembleur.hepl.service.ZuulTVAService;
 import com.bourgedetrembleur.hepl.service.inter.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +28,7 @@ public class CartService implements ICartService
     private ArticleRepository articleRepository;
 
     @Autowired
-    private RestTemplate restTemplate;
+    private ZuulTVAService zuulTVAService;
 
     @Autowired
     public CartService(
@@ -123,21 +125,13 @@ public class CartService implements ICartService
         return itemInfosDTOS;
     }
 
-    public float getFullPrice(int idOrder)
+    public float getFullPrice(int idOrder) throws Error
     {
         var items = getOriginalCart(idOrder);
         float price = 0f;
         for(var item : items)
         {
-            float fullPriceItem = item.getQuantity() * item.getArticle().getPrice();
-            Float tmp = restTemplate.getForObject(
-                    "http://127.0.0.1:8765/eureka-zuul-tva-service/get?fullPrice=" + fullPriceItem + "&idCategory=" + item.getArticle().getCategory().getId(),
-                    Float.class);
-            System.err.println("TMP " + tmp);
-            if(tmp != null && tmp != -1)
-            {
-                price += tmp;
-            }
+            price += zuulTVAService.getTVA(item);
         }
         return price;
     }
