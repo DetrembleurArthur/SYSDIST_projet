@@ -159,7 +159,7 @@ public class ArticleController
                 model.addAttribute("priceTTC", cartService.getFullPrice(id));
             } catch (Error error)
             {
-                model.addAttribute("priceTTC", "/");
+                model.addAttribute("priceTTC", "...");
             }
         }
         else

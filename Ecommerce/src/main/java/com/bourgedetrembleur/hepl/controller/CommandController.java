@@ -34,4 +34,10 @@ public class CommandController
         model.addAttribute("itemInfoDTOs", cartService.getCart(idCommand));
         return commands(model, authentication);
     }
+
+    @PostMapping("/commands/pay")
+    public String pay(Model model, @RequestParam(name = "idCommand") Integer idCommand)
+    {
+        return "";
+    }
 }

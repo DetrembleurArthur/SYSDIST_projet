@@ -25,6 +25,7 @@
                 <th scope="col">Status</th>
                 <th scope="col">Amount</th>
                 <th scope="col">View</th>
+                <th scope="col">Pay</th>
             </tr>
             </thead>
             <tbody>
@@ -34,6 +35,9 @@
                 <td><strong>[[${commandInfoDTO.getAmount()}]]€</strong></td>
                 <form method="post" th:action="@{commands(idCommand=${commandInfoDTO.getCommandId()})}">
                     <td><input type="submit" value="view details" class="btn btn-outline-secondary"/></td>
+                </form>
+                <form method="post" th:action="@{commands/pay(idCommand=${commandInfoDTO.getCommandId()})}">
+                    <td><input type="submit" th:value="'pay ' + ${commandInfoDTO.getAmount()} + '€'" class="btn btn-outline-warning"/></td>
                 </form>
             </tr>
             </tbody>
