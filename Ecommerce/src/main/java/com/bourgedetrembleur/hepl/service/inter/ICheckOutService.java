@@ -8,4 +8,5 @@ import com.bourgedetrembleur.hepl.model.Payement;
 public interface ICheckOutService
 {
     Payement doCheckOut(Command command, String expeditionMode) throws Error;
+    void pay(Command command) throws Error;
 }

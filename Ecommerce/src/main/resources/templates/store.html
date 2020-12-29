@@ -65,7 +65,7 @@
                     
                     <form th:action="@{/payement/finalize}" method="POST">
                         <a th:href="@{/store/clear}" class="btn btn-danger">clear</a>
-                        <input type="submit" th:value="'finalize ' + ${priceTTC} + '€'" class="btn btn-warning"/>
+                        <input type="submit" th:value="'register ' + ${priceTTC} + '€'" class="btn btn-warning"/>
                         <select name="livraison" class="form-select form-select-sm">
                         <option value="normal">Normal</option>
                         <option value="express">Express</option>

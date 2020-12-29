@@ -16,7 +16,7 @@ public class MoneyController
     @GetMapping("/money")
     public String money(Authentication authentication)
     {
-        moneyService.addMoney(((MyUserDetails)authentication.getPrincipal()).getUser());
+        moneyService.addMoney(((MyUserDetails)authentication.getPrincipal()).getUser().getUsername());
         return "redirect:/store?success=You have earned money!";
     }
 }

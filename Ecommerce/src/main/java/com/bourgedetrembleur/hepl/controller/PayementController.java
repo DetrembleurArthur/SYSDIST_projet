@@ -72,4 +72,21 @@ public class PayementController
             return "redirect:/store?error=You have no command to finalize";
         }
     }
+
+    @PostMapping("/payement/pay")
+    public String pay(
+            @RequestParam("idCommand") String idCommand
+    )
+    {
+        var opt = commandRepository.findById(Integer.valueOf(idCommand));
+        try
+        {
+            if(opt.isEmpty()) throw new Error("this command not exists anymore");
+            checkOutService.pay(opt.get());
+            return "redirect:/commands?idCommand=" + idCommand + "&success=payement accepted!";
+        } catch (Error error)
+        {
+            return "redirect:/commands?idCommand=" + idCommand + "&error=" + error.getMessage();
+        }
+    }
 }

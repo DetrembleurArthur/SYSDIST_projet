@@ -10,13 +10,17 @@
 <div class="container-fluid">
     <div class="container">
 
-        <div th:if="${param.error}">
-            Invalid username and password.
-        </div>
 
         <a th:href="@{/store}">Back to store</a>
 
+        <div class="alert alert-danger" th:if="${param.error}" th:text="${param.error}">
+        </div>
+
+        <div class="alert alert-success" th:if="${param.success}" th:text="${param.success}">
+        </div>
+
         <h1>Commands of [[${#httpServletRequest.remoteUser}]]</h1>
+        <h3>Your account : [[${account}]]€</h3>
 
         <table class="table table-striped">
             <thead class="table-dark">
@@ -25,7 +29,7 @@
                 <th scope="col">Status</th>
                 <th scope="col">Amount</th>
                 <th scope="col">View</th>
-                <th scope="col">Pay</th>
+                <th scope="col">€</th>
             </tr>
             </thead>
             <tbody>
@@ -33,12 +37,15 @@
                 <th scope="row">[[${commandInfoDTO.getCommandId()}]]</th>
                 <td><strong>[[${commandInfoDTO.getStatus()}]]</strong></td>
                 <td><strong>[[${commandInfoDTO.getAmount()}]]€</strong></td>
-                <form method="post" th:action="@{commands(idCommand=${commandInfoDTO.getCommandId()})}">
-                    <td><input type="submit" value="view details" class="btn btn-outline-secondary"/></td>
+                <form th:action="@{commands}">
+                    <td>
+                    <button  class="btn btn-outline-secondary" type="submit" name="idCommand" th:value="${commandInfoDTO.getCommandId()}">view details</button>
+                    </td>
                 </form>
-                <form method="post" th:action="@{commands/pay(idCommand=${commandInfoDTO.getCommandId()})}">
-                    <td><input type="submit" th:value="'pay ' + ${commandInfoDTO.getAmount()} + '€'" class="btn btn-outline-warning"/></td>
+                <form method="post" th:if="${!commandInfoDTO.isPayed()}" th:action="@{payement/pay(idCommand=${commandInfoDTO.getCommandId()})}">
+                    <td><input type="submit" th:value="'pay ' + ${commandInfoDTO.getAmount()} + '€'" class="btn btn-warning"/></td>
                 </form>
+                <td th:unless="${!commandInfoDTO.isPayed()}">done<strong></strong></td>
             </tr>
             </tbody>
         </table>

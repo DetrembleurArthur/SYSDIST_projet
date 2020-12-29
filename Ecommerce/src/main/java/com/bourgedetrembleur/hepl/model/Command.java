@@ -12,6 +12,7 @@ import java.util.Collection;
 public class Command implements Serializable
 {
     public static String STAND_BY = "En stand by";
+    public static String EN_ATTENTE = "En attente";
     public static String PREPA="En preparation";
     public static String EXPED="Expediee";
     public static String RECEP="Receptionnee";

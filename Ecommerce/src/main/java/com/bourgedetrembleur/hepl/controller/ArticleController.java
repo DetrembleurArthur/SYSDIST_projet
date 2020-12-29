@@ -10,6 +10,7 @@ import com.bourgedetrembleur.hepl.repository.ArticleRepository;
 
 import com.bourgedetrembleur.hepl.service.impl.CartService;
 import com.bourgedetrembleur.hepl.service.impl.OrderService;
+import com.bourgedetrembleur.hepl.service.inter.IMoneyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
@@ -24,14 +25,16 @@ public class ArticleController
     private ArticleRepository articleRepository;
     private CartService cartService;
     private OrderService orderService;
+    private IMoneyService moneyService;
 
 
     @Autowired
-    public ArticleController(ArticleRepository articleRepository, CartService cartService, OrderService orderService)
+    public ArticleController(ArticleRepository articleRepository, CartService cartService, OrderService orderService, IMoneyService moneyService)
     {
         this.articleRepository = articleRepository;
         this.cartService = cartService;
         this.orderService = orderService;
+        this.moneyService = moneyService;
     }
 
     @GetMapping("/")
@@ -84,7 +87,9 @@ public class ArticleController
 
         if(authentication != null)
         {
-            model.addAttribute("account", ((MyUserDetails)authentication.getPrincipal()).getUser().getAmount() + "€");
+            System.err.println("HELLLLLO");
+            float amount = moneyService.getAccount(((MyUserDetails)authentication.getPrincipal()).getUser().getUsername());
+            model.addAttribute("account", amount + "€");
         }
 
         return "store";

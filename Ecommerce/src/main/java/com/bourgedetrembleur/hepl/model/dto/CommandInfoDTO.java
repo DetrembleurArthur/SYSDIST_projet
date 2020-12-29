@@ -5,6 +5,7 @@ public class CommandInfoDTO
     private int commandId;
     private String status;
     private float amount = 0;
+    private boolean payed;
 
     public CommandInfoDTO()
     {
@@ -39,5 +40,15 @@ public class CommandInfoDTO
     public void setAmount(float amount)
     {
         this.amount = amount;
+    }
+
+    public boolean isPayed()
+    {
+        return payed;
+    }
+
+    public void setPayed(boolean payed)
+    {
+        this.payed = payed;
     }
 }
