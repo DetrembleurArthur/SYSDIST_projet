@@ -38,4 +38,16 @@ public class StockService implements IStockService
         item.setQuantity(0);
         articleRepository.save(item.getArticle());
     }
+
+    public void updateStock(int idArticle, int quantity, float price)
+    {
+        var opt = articleRepository.findById(idArticle);
+        if(opt.isPresent())
+        {
+            var article = opt.get();
+            article.setStock(article.getStock() + quantity);
+            article.setPrice(price);
+            articleRepository.save(article);
+        }
+    }
 }

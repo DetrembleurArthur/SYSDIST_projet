@@ -11,6 +11,7 @@ import com.bourgedetrembleur.hepl.repository.CommandRepository;
 import com.bourgedetrembleur.hepl.repository.ItemRepository;
 import com.bourgedetrembleur.hepl.service.ZuulTVAService;
 import com.bourgedetrembleur.hepl.service.inter.ICartService;
+import com.bourgedetrembleur.hepl.service.inter.ISupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -29,6 +30,9 @@ public class CartService implements ICartService
 
     @Autowired
     private ZuulTVAService zuulTVAService;
+
+    @Autowired
+    private ISupplierService supplierService;
 
     @Autowired
     public CartService(
@@ -52,6 +56,7 @@ public class CartService implements ICartService
         if(!stockService.checkInventory(idArticle, quantity))
         {
             System.err.println("ERROR STOCK");
+            supplierService.demand_article(idArticle, quantity);
             return -1;
         }
         

@@ -1,4 +1,4 @@
-package com.bourgedetrembleur.supplier;
+package com.bourgedetrembleur.hepl;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

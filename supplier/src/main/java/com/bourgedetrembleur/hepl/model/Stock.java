@@ -1,8 +1,9 @@
-package com.bourgedetrembleur.supplier.model;
+package com.bourgedetrembleur.hepl.model;
 
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
@@ -11,6 +12,7 @@ public class Stock
     private int id;
     private int idArticle;
     private int quantity;
+    private float price;
     private String supplier;
 
 
@@ -20,7 +22,7 @@ public class Stock
     }
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId()
     {
         return id;
@@ -59,5 +61,15 @@ public class Stock
     public void setSupplier(String supplier)
     {
         this.supplier = supplier;
+    }
+
+    public float getPrice()
+    {
+        return price;
+    }
+
+    public void setPrice(float price)
+    {
+        this.price = price;
     }
 }
